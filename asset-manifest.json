@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/PSM-game-of-life/static/css/main.b9a50aab.css",
+    "main.js": "/PSM-game-of-life/static/js/main.0b5c59b7.js",
+    "static/js/787.aa07c7c7.chunk.js": "/PSM-game-of-life/static/js/787.aa07c7c7.chunk.js",
+    "index.html": "/PSM-game-of-life/index.html",
+    "main.b9a50aab.css.map": "/PSM-game-of-life/static/css/main.b9a50aab.css.map",
+    "main.0b5c59b7.js.map": "/PSM-game-of-life/static/js/main.0b5c59b7.js.map",
+    "787.aa07c7c7.chunk.js.map": "/PSM-game-of-life/static/js/787.aa07c7c7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b9a50aab.css",
+    "static/js/main.0b5c59b7.js"
+  ]
+}
