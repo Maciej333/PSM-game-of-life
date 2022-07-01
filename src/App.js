@@ -1,21 +1,26 @@
-import './App.css';
+import './App.scss';
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import View from './features/view/View';
+import TabSize from './features/options/TabSIze/TabSize';
+import Rules from './features/options/Rules/Rules';
+import Buttons from './features/options/Buttons/Buttons';
+import { addCount, resetCount, selectInterval } from './core/store/interval/IntervalSlice';
+import { selectRules } from './core/store/rules/RulesSlice';
 
 function App() {
 
-  const [nrOfInterval, setNrOfInterval] = useState(0)
-  const [intervalId, setIntervalId] = useState(undefined)
   const [size, setSize] = useState(30)
-  const rule = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  const [rule1, setRule1] = useState([0, 0, 1, 1, 0, 0, 0, 0, 0])
-  const [rule0, setRule0] = useState([0, 0, 0, 1, 0, 0, 0, 0, 0])
   const [leftTab, setLeftTab] = useState(Array.from(Array(size), () => Array.from(Array(size))))
   const [rightTab, setRightTab] = useState(Array.from(Array(size), () => Array.from(Array(size))))
 
+  const dispatch = useDispatch();
+  const interval = useSelector(selectInterval);
+  const { rule1, rule0 } = useSelector(selectRules);
+
   useEffect(() => {
-    setLeftTab(Array.from(Array(size), () => Array.from(Array(size))))
-    setRightTab(Array.from(Array(size), () => Array.from(Array(size))))
-    setNrOfInterval(0)
+    setTabs(Array.from(Array(size), () => Array.from(Array(size))))
+    dispatch(resetCount());
   }, [size])
 
   const handleSizeChange = (e) => {
@@ -23,36 +28,14 @@ function App() {
     handleStop()
     setSize(Number(value))
   }
-
-  const handleRule1 = (index) => {
-    const newRule = [...rule1]
-    newRule[index] === 1 ? newRule[index] = 0 : newRule[index] = 1
-    setRule1(newRule)
-    handleStop()
+  const setTabs = (newTab) => {
+    setLeftTab(newTab);
+    setRightTab(newTab);
   }
 
-  const handleRule0 = (index) => {
-    const newRule = [...rule0]
-    newRule[index] === 1 ? newRule[index] = 0 : newRule[index] = 1
-    setRule0(newRule)
-    handleStop()
+  const handleStop = () => {
+    clearInterval(interval.intervalId)
   }
-
-  const handleStart = (e) => {
-    setIntervalId(setInterval(calculateLife, 1000))
-  }
-
-  const handleStop = (e) => {
-    clearInterval(intervalId)
-  }
-
-  const handleReset = (e) => {
-    handleStop()
-    setLeftTab(Array.from(Array(size), () => Array.from(Array(size))))
-    setRightTab(Array.from(Array(size), () => Array.from(Array(size))))
-    setNrOfInterval(0)
-  }
-
   const calculateLife = () => {
     setRightTab(prev => {
       const calculateTab = JSON.parse(JSON.stringify(prev))
@@ -99,112 +82,23 @@ function App() {
           }
         }
       }
-      setNrOfInterval(prev => prev + 1)
-      return calculateTab
+      return calculateTab;
     });
-  }
-
-  const handleCellClick = (rowId, colId) => {
-    const newTab = [...leftTab];
-    newTab[rowId][colId] !== 1 ? newTab[rowId][colId] = 1 : newTab[rowId][colId] = 0;
-    setLeftTab(newTab)
-    setRightTab(newTab)
+    dispatch(addCount());
   }
 
   return (
     <div className="App flex-column">
-
       <div className='action-bar flex'>
-        <div className='cells flex flex-column'>
-          <p>ROZMIARY TABLICY</p>
-          <input value={size} type="number" onChange={handleSizeChange}></input>
-        </div>
-        <div className='rules'>
-          <p className='full'>REGUŁY WALIDACYJNE</p>
-          <span className='margin-right'>L. sąsiadów</span>
-          {
-            rule.map((item, index) => {
-              return <span
-                style={{ "display": "inline-block", "width": "25px", "textAlign": "center" }}
-                key={`rule ${index}`}
-              >
-                {item}
-              </span>
-            })
-          }
-          <span className='margin-right'>1</span>
-          {
-            rule1.map((item, index) => {
-              return <button
-                className='rule'
-                key={`rule1 ${index}`}
-                style={{ "backgroundColor": item === 1 ? "#27a7c0" : "white" }}
-                onClick={() => handleRule1(index)}
-              >
-                {item}
-              </button>
-            })
-          }
-          <span className='margin-right'>0</span>
-          {
-            rule0.map((item, index) => {
-              return <button
-                className='rule'
-                key={`rule0 ${index}`}
-                style={{ "backgroundColor": item === 1 ? "#27a7c0" : "white" }}
-                onClick={() => handleRule0(index)}
-              >
-                {item}
-              </button>
-            })
-          }
-        </div>
-        <div className='buttons flex flex-column'>
-          <p>PRZYCISKI</p>
-          <p style={{ "fontSize": "1rem" }}>Iteracja = {nrOfInterval}</p>
-          <div className='flex'>
-            <button onClick={handleStart}>start</button>
-            <button onClick={handleStop}>stop</button>
-          </div>
-          <button onClick={handleReset}>reset</button>
-        </div>
+        <TabSize size={size} handleSizeChange={handleSizeChange} />
+        <Rules rule1={rule1} rule0={rule0} handleStop={handleStop} />
+        <Buttons size={size} setTabs={setTabs} calculateLife={calculateLife} handleStop={handleStop} />
       </div>
 
       <div className='content flex'>
-        <div className='container' style={{ "gridTemplateColumns": `repeat(${size}, 1fr)`, "gridTemplateRows": `repeat(${size}, 1fr)` }}>
-          {
-            leftTab.map((row, rowId) => {
-              return row.map((itemLeft, colId) => {
-                return <span
-                  key={`left ${rowId} ${colId}`}
-                  className='cell cell-left flex'
-                  onClick={() => handleCellClick(rowId, colId)}
-                  style={{ "backgroundColor": itemLeft === 1 ? "#27a7c0" : "white" }}
-                >
-                  {itemLeft === 1 ? "1" : "0"}
-                </span>
-              })
-            })
-          }
-        </div>
-        <div className='container' style={{ "gridTemplateColumns": `repeat(${size}, 1fr)`, "gridTemplateRows": `repeat(${size}, 1fr)` }}>
-          {
-            rightTab.map((row, rowId) => {
-              return row.map((itemRight, colId) => {
-                return <span
-                  key={`left ${rowId} ${colId}`}
-                  className='cell flex'
-                  style={{ "backgroundColor": itemRight === 1 ? "#40e75f" : "white" }}
-                >
-                  {itemRight === 1 ? "1" : "0"}
-                </span>
-              })
-            })
-          }
-        </div>
-
+        <View size={size} tab={leftTab} idDraw={true} setTabs={setTabs} />
+        <View size={size} tab={rightTab} idDraw={false} />
       </div>
-
     </div>
   );
 }
