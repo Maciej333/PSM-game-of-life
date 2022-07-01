@@ -1,3 +1,5 @@
+@import './core/assets/color.style.scss';
+
 body {
   margin: 0;
   padding: 0;
@@ -7,8 +9,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: content-box;
-  background-color: black;
-  color: white;
+  background-color: $black;
+  color: $white;
 }
 
 code {

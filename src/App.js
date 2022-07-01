@@ -89,15 +89,19 @@ function App() {
 
   return (
     <div className="App flex-column">
+      <h1>Conway, gra w życie</h1>
       <div className='action-bar flex'>
-        <TabSize size={size} handleSizeChange={handleSizeChange} />
         <Rules rule1={rule1} rule0={rule0} handleStop={handleStop} />
-        <Buttons size={size} setTabs={setTabs} calculateLife={calculateLife} handleStop={handleStop} />
+        <div className='group'>
+          <TabSize size={size} handleSizeChange={handleSizeChange} />
+          <Buttons size={size} setTabs={setTabs} calculateLife={calculateLife} handleStop={handleStop} />
+        </div>
+
       </div>
 
-      <div className='content flex'>
-        <View size={size} tab={leftTab} idDraw={true} setTabs={setTabs} />
-        <View size={size} tab={rightTab} idDraw={false} />
+      <div className='view-container flex'>
+        <View name="inicjalna" size={size} tab={leftTab} isDraw={true} setTabs={setTabs} />
+        <View name="wynikowa" size={size} tab={rightTab} isDraw={false} />
       </div>
     </div>
   );

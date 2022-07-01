@@ -1,1 +1,90 @@
 @import './core/assets/main.style.scss';
+@import './core/assets/color.style.scss';
+
+.App {
+    padding: 25px 0;
+    gap: 25px;
+
+    h1 {
+        width: 90%;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px;
+        border: 5px solid $color-1;
+        border-radius: 30px 15px;
+    }
+
+    .action-bar {
+        gap: 10px;
+        flex-wrap: wrap;
+        color: $color-1;
+        font-weight: 550;
+
+        .group {
+            width: 92%;
+            margin: 0 auto;
+        }
+    }
+
+    .view-container {
+        gap: 40px;
+        flex-wrap: wrap;
+
+    }
+}
+
+.form {
+    @extend .flex-column;
+    padding-top: 10px;
+    border-top: 2px solid $color-1;
+    margin-top: 25px;
+
+    label,
+    span {
+        width: 100%;
+        text-align: left;
+        padding-bottom: 5px;
+
+        &.interval-nr {
+            text-align: center;
+            color: $white;
+            padding-bottom: 10px;
+        }
+    }
+
+    input {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
+
+.btn {
+    color: $black;
+    background-color: $grey;
+    text-transform: uppercase;
+    font-weight: 600;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    margin: 2px 5px;
+    padding: 5px 10px;
+    transition: 0.5s all linear;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.03);
+        background-color: $color-1;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .App {
+        .action-bar {
+            gap: 50px;
+
+            .group {
+                width: auto;
+            }
+        }
+    }
+}

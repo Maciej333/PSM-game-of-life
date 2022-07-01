@@ -1,0 +1,22 @@
+@import '../../core/assets/color.style.scss';
+
+.view-name {
+    text-transform: capitalize;
+}
+
+.view {
+    display: grid;
+
+    .cell {
+        color: transparent;
+        border: 1px solid $color-1;
+        max-width: 20px;
+        max-height: 20px;
+
+        &:hover {
+            cursor: pointer;
+            border-color: $color-2;
+            background-color: $grey  !important;
+        }
+    }
+}

@@ -1,0 +1,39 @@
+@import '../../../core/assets/color.style.scss';
+
+.rules {
+    align-self: flex-start;
+    width: 92%;
+    margin: 0 auto;
+
+    .grid-2 {
+        grid-template-columns: 75px 1fr;
+
+        span.center {
+            text-align: center;
+        }
+
+        .grid-9 {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+
+            span {
+                text-align: center;
+            }
+
+            button.btn {
+                margin: 2px;
+
+                &:hover {
+                    color: $color-3;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .rules {
+        width: auto;
+        margin-top: 25px;
+    }
+}

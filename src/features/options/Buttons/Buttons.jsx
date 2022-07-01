@@ -19,14 +19,14 @@ export default function Buttons(props) {
     }
 
     return (
-        <div className='buttons flex flex-column'>
-            <p>PRZYCISKI</p>
-            <p style={{ "fontSize": "1rem" }}>Iteracja = {nrOfInterval}</p>
+        <div className='form'>
+            <span>PRZYCISKI</span>
+            <span className='interval-nr'>Iteracja = {nrOfInterval}</span>
             <div className='flex'>
-                <button onClick={handleStart}>start</button>
-                <button onClick={handleStop}>stop</button>
+                <button className='btn' onClick={handleStart}>start</button>
+                <button className='btn' onClick={handleStop}>stop</button>
+                <button className='btn' onClick={handleReset}>reset</button>
             </div>
-            <button onClick={handleReset}>reset</button>
         </div>
     )
 }
